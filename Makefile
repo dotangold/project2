@@ -1,16 +1,39 @@
 CC=gcc
-CFLAGS=-I.
-#DEPS = Project2.h
-OBJ = Project2.o 
+CFLAGS= -Wall 
+DEPS = Project2.c
+OBJ = Project2.o  
 EXEC = Project2
+LIBS_PATH = -L$(PWD) 
+LIBS = -lCommon
+COMMOM_LIB_PATH=../Common
+INCLUDE_FILES = Common.h
 
-%.o: %.c $(DEPS)
-	$(CC) -c -o $@ $< $(CFLAGS)
+%.o: %.c
+	$(CC) -c -o $@ $<
 
-$(EXEC): $(OBJ)
-	$(CC) -o $@ $^ $(CFLAGS)
+#$(EXEC): $(OBJ)
+#	$(CC) $(LIBS_PATH) $(CFLAGS) -o $@ $^ $(LIBS)
+
+#$(EXEC): $(DEPS)
+#	$(CC) $(LIBS_PATH) -Wl,-rpath=$(PWD) $(CFLAGS) -o $@ $^ $(LIBS)
+
+Shared: 
+	$(MAKE) -C  $(COMMOM_LIB_PATH) clean
+	$(MAKE) -C  $(COMMOM_LIB_PATH)
+
+install:
+	cp $(COMMOM_LIB_PATH)/*.so $(COMMOM_LIB_PATH)/$(INCLUDE_FILES) .
+# export LD_LIBRARY_PATH=$(`pwd`)
+
+$(EXEC) : $(OBJ) 
+	$(CC)  $(CFLAGS) -o $@ $^ $(LIBS) $(LIBS_PATH)
 	
 .PHONY: clean
 
 clean:
-	rm -f *.o $(EXEC)
+	rm -f *.o $(EXEC) *.so $(INCLUDE_FILES)
+
+all: Shared install $(EXEC)
+	
+	
+### do : export LD_LIBRARY_PATH=$LD_LIBRARY_PATH:$(pwd)

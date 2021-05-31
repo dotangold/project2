@@ -5,7 +5,7 @@ OBJ = Project2.o
 EXEC = Project2
 LIBS_PATH = -L$(PWD) 
 LIBS = -lCommon
-COMMOM_LIB_PATH=../Common
+COMMOM_LIB_PATH= Common
 INCLUDE_FILES = Common.h
 
 %.o: %.c

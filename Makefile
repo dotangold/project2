@@ -1,4 +1,4 @@
-CC=gcc
+CC=LD_LIBRARY_PATH=/. gcc
 CFLAGS= -Wall 
 DEPS = Project2.c
 OBJ = Project2.o  
